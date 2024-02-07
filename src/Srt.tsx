@@ -48,6 +48,7 @@ export const Srt: React.FC<{
 					top: '50%',
 					transform: 'translateY(-50%)',
 					maxWidth: '90%',
+					fontFamily: 'Impact, sans-serif'
 				}}>{line.text}</span>;
 			}
 			return null;

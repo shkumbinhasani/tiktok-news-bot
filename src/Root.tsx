@@ -17,12 +17,13 @@ export const RemotionRoot: React.FC = () => {
 				height={1920}
 				schema={newsVideoSchema}
 				defaultProps={{
-					srtFile: '[English (auto-generated)] #shorts #familyguy [DownSub.com].srt',
+					title: 'Breaking News',
+					srtFile: 'srt.srt',
 					images: [
 						'https://cdn3.vectorstock.com/i/1000x1000/05/07/1st-number-one-rank-golden-label-design-vector-19610507.jpg',
 						'https://numerograph.files.wordpress.com/2020/02/numerology-number-2.jpg?w=600'
 					],
-					audioFile: '#shorts #familyguy.mp3'
+					audioFile: 'audio.mp3'
 				}}
 				calculateMetadata={async ({props}) => {
 					const length = await getAudioDurationInSeconds(staticFile(props.audioFile));
