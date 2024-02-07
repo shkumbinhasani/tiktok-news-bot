@@ -1,43 +1,34 @@
-import {Composition} from 'remotion';
-import {HelloWorld, myCompSchema} from './HelloWorld';
-import {Logo, myCompSchema2} from './HelloWorld/Logo';
+import {Composition, staticFile} from 'remotion';
+import {NewsVideo, newsVideoSchema} from './NewsVideo';
+import {getAudioDurationInSeconds} from '@remotion/media-utils';
 
 // Each <Composition> is an entry in the sidebar!
+
+export const FRAME_RATE = 30;
 
 export const RemotionRoot: React.FC = () => {
 	return (
 		<>
 			<Composition
-				// You can take the "id" to render a video:
-				// npx remotion render src/index.ts <id> out/video.mp4
-				id="HelloWorld"
-				component={HelloWorld}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
-				// You can override these props for each render:
-				// https://www.remotion.dev/docs/parametrized-rendering
-				schema={myCompSchema}
+				id="NewsVideo"
+				component={NewsVideo}
+				fps={FRAME_RATE}
+				width={1080}
+				height={1920}
+				schema={newsVideoSchema}
 				defaultProps={{
-					titleText: 'Welcome to Remotion',
-					titleColor: '#000000',
-					logoColor1: '#91EAE4',
-					logoColor2: '#86A8E7',
+					srtFile: '[English (auto-generated)] #shorts #familyguy [DownSub.com].srt',
+					images: [
+						'https://cdn3.vectorstock.com/i/1000x1000/05/07/1st-number-one-rank-golden-label-design-vector-19610507.jpg',
+						'https://numerograph.files.wordpress.com/2020/02/numerology-number-2.jpg?w=600'
+					],
+					audioFile: '#shorts #familyguy.mp3'
 				}}
-			/>
-			{/* Mount any React component to make it show up in the sidebar and work on it individually! */}
-			<Composition
-				id="OnlyLogo"
-				component={Logo}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
-				schema={myCompSchema2}
-				defaultProps={{
-					logoColor1: '#91dAE2' as const,
-					logoColor2: '#86A8E7' as const,
+				calculateMetadata={async ({props}) => {
+					const length = await getAudioDurationInSeconds(staticFile(props.audioFile));
+					return {
+						durationInFrames: Math.floor(length * FRAME_RATE),
+					};
 				}}
 			/>
 		</>
